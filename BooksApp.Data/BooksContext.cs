@@ -16,7 +16,11 @@ namespace BooksApp.Data
         protected override void OnConfiguring (DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(connectionString);
-        } 
+        }
 
+        public void SaveChanges()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

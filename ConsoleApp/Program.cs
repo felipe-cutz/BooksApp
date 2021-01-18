@@ -1,11 +1,18 @@
-﻿using System;
+﻿using BooksApp.Data;
+using System;
+using System.Linq;
+using System.Threading;
+using BooksApp.Domain;
 
 namespace ConsoleApp
 {
     class Program
     {
+        private static BooksContext context = new BooksContext();
+      
         static void Main(string[] args)
         {
+            context.Database.EnsureCreated();
             char lectura;
             do
             {
@@ -47,11 +54,22 @@ namespace ConsoleApp
 
         }
 
-
-         static void ShowAuthor()
+        private static void ShowAuthor()
         {
-            Console.WriteLine("Mostrando autores...");
+            throw new NotImplementedException();
         }
+
+        private static void ShowAuthor(string text)
+        {
+            var authors = context.Authors.ToList();
+
+            Console.WriteLine($"{text}: Se han registrado {authors.Count} autores.");
+            foreach (var author in authors)
+            {
+                Console.WriteLine(author.FirstName + " " + author.LastName);
+            }
+        }
+       
 
         private static void DeleteAhthor()
         {
@@ -63,11 +81,21 @@ namespace ConsoleApp
             throw new NotImplementedException();
         }
 
-         static void AddAuthor()
+         private static void AddAuthor()
         {
-            Console.WriteLine("Agregando autor...");
+            Console.WriteLine("Agregando un autor.");
+            Console.Write("Nombres: ");
+            string firstName = Console.ReadLine();
+            Console.Write("Apellidos: ");
+            string lastName = Console.ReadLine();
+            var author = new BooksApp.Data.Author
+            {
+                FirstName = firstName,
+                LastName = lastName
+            };
+            context.Authors.Add(author);
+            context.SaveChanges();
         }
-        
         
     }
 
